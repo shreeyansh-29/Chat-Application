@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import axios from "axios";
+import {encryptData} from "../utils/hash";
 
 const LoginForm = () => {
   const [userName, setUserName] = useState("");
@@ -8,6 +9,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
 
     const authObject = {
       "Project-ID": "a645d3ab-d942-4be7-b3e2-cce1648f5ea4",
@@ -21,11 +23,12 @@ const LoginForm = () => {
       });
 
       localStorage.setItem("username", userName);
-      localStorage.setItem("password", password);
+      const pass = encryptData(password);
+      localStorage.setItem("password", pass);
       window.location.reload();
     } catch (error) {
       console.error(error);
-      setError("Oops,, incorrect creds");
+      setError("Oops, incorrect credentials");
     }
   };
 
